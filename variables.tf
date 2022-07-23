@@ -1,3 +1,8 @@
+variable "name" {
+  description = "Name to be used for Azure Route Server related components."
+  type        = string
+}
+
 variable "cidr" {
   description = "CIDR for VNET creation."
   type        = string
@@ -8,24 +13,19 @@ variable "cidr" {
   }
 
   validation {
-    condition     = split(var.cidr, "/")[1] > 27
+    condition     = split("/", var.cidr)[1] >= 27
     error_message = "CIDR size too small. Needs to be at least a /27."
   }
 }
 
-variable "transit_vnet_id" {
+variable "transit_vnet_obj" {
   description = "ID of transit VNET"
-  type        = string
+  #type        = map(any)
 }
 
-variable "transit_vnet_name" {
-  description = "Name of transit VNET"
-  type        = string
-}
-
-variable "transit_gw" {
+variable "transit_gw_obj" {
   description = "Name of the transit gateway."
-  type        = string
+  #type        = map(any)
 }
 
 variable "region" {
@@ -41,6 +41,6 @@ variable "resource_group_name" {
 }
 
 locals {
-  existing_resource_group = length(var.resource_group) > 0
-  resource_group_name     = local.existing_resource_group ? var.resource_group_name : resource_group.default.name
+  existing_resource_group = length(var.resource_group_name) > 0
+  resource_group_name     = local.existing_resource_group ? var.resource_group_name : azurerm_resource_group.default[0].name
 }
