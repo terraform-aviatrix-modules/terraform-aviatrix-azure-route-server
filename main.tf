@@ -1,6 +1,5 @@
 data "azurerm_subscription" "current" {}
 
-
 resource "azurerm_resource_group" "default" {
   count    = local.existing_resource_group ? 0 : 1
   name     = var.name
@@ -64,21 +63,21 @@ resource "azurerm_route_server_bgp_connection" "default" {
 }
 
 resource "aviatrix_transit_external_device_conn" "default" {
-  vpc_id            = var.transit_vnet_obj.vpc_id
-  connection_name   = format("%s-ars-bgp", var.name)
-  gw_name           = var.transit_gw_obj.gw_name
-  connection_type   = "bgp"
-  tunnel_protocol   = "LAN"
-  remote_vpc_name   = format("%s:%s:%s", azurerm_virtual_network.default.name, local.resource_group_name, data.azurerm_subscription.current.subscription_id)
-  bgp_local_as_num  = var.transit_gw_obj.local_as_number
-  bgp_remote_as_num = "65515"
-  #local_lan_ip      = var.transit_gw_obj.bgp_lan_ip_list[0]
-  remote_lan_ip = tolist(azurerm_route_server.default.virtual_router_ips)[0]
-  #ha_enabled               = true
-  #backup_bgp_remote_as_num = "65011"
-  #   backup_local_lan_ip       = "172.12.12.1"
-  #backup_remote_lan_ip      = tolist(azurerm_route_server.default.virtual_router_ips)[1]
-  #enable_bgp_lan_activemesh = true
+  vpc_id                    = var.transit_vnet_obj.vpc_id
+  connection_name           = format("%s-ars-bgp", var.name)
+  gw_name                   = var.transit_gw_obj.gw_name
+  connection_type           = "bgp"
+  tunnel_protocol           = "LAN"
+  remote_vpc_name           = format("%s:%s:%s", azurerm_virtual_network.default.name, local.resource_group_name, data.azurerm_subscription.current.subscription_id)
+  ha_enabled                = true
+  bgp_local_as_num          = var.transit_gw_obj.local_as_number
+  bgp_remote_as_num         = "65515"
+  backup_bgp_remote_as_num  = "65515"
+  local_lan_ip              = var.transit_gw_obj.bgp_lan_ip_list[0]
+  backup_remote_lan_ip      = tolist(azurerm_route_server.default.virtual_router_ips)[1]
+  remote_lan_ip             = tolist(azurerm_route_server.default.virtual_router_ips)[0]
+  backup_local_lan_ip       = var.transit_gw_obj.ha_bgp_lan_ip_list[0]
+  enable_bgp_lan_activemesh = true
 
   depends_on = [
     azurerm_virtual_network_peering.default-1,
