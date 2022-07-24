@@ -72,12 +72,12 @@ resource "aviatrix_transit_external_device_conn" "default" {
   remote_vpc_name   = format("%s:%s:%s", azurerm_virtual_network.default.name, local.resource_group_name, data.azurerm_subscription.current.subscription_id)
   bgp_local_as_num  = var.transit_gw_obj.local_as_number
   bgp_remote_as_num = "65515"
-  #   local_lan_ip              = "172.12.11.1"
+  #local_lan_ip      = var.transit_gw_obj.bgp_lan_ip_list[0]
   remote_lan_ip = tolist(azurerm_route_server.default.virtual_router_ips)[0]
   #ha_enabled               = true
   #backup_bgp_remote_as_num = "65011"
   #   backup_local_lan_ip       = "172.12.12.1"
-  #backup_remote_lan_ip      = "172.12.22.4"
+  #backup_remote_lan_ip      = tolist(azurerm_route_server.default.virtual_router_ips)[1]
   #enable_bgp_lan_activemesh = true
 
   depends_on = [
@@ -86,10 +86,10 @@ resource "aviatrix_transit_external_device_conn" "default" {
   ]
 }
 
-resource "azurerm_express_route_gateway" "default" {
-  name                = "expressRoute1"
-  resource_group_name = local.resource_group_name
-  location            = var.region
-  virtual_hub_id      = azurerm_route_server.default.id
-  scale_units         = 1
-}
+# resource "azurerm_express_route_gateway" "default" {
+#   name                = "expressRoute1"
+#   resource_group_name = local.resource_group_name
+#   location            = var.region
+#   virtual_hub_id      = azurerm_route_server.default.id
+#   scale_units         = 1
+# }
