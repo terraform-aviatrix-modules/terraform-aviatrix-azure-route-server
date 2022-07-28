@@ -1,7 +1,8 @@
-# Repository Name
+# terraform-aviatrix-azure-route-server
 
 ### Description
-\<Provide a description of the module>
+This module deploys a VNET with Azure route server and integrates it with the provided Aviatrix transit through BGP over LAN.
+Make sure to use a transit instance size that allos for more than 4 interfaces (e.g. Standard_DS4_v2).
 
 ### Diagram
 \<Provide a diagram of the high level constructs thet will be created by this module>
