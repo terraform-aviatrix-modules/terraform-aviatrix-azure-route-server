@@ -4,14 +4,14 @@ data "azurerm_subscription" "current" {}
 resource "azurerm_resource_group" "default" {
   count    = local.existing_resource_group ? 0 : 1
   name     = var.name
-  location = var.region
+  location = local.region
 }
 
 resource "azurerm_virtual_network" "default" {
   name                = format("%s-ars-vnet", var.name)
   address_space       = [var.cidr]
   resource_group_name = local.resource_group_name
-  location            = var.region
+  location            = local.region
 }
 
 #Azure Route Server resources
@@ -25,7 +25,7 @@ resource "azurerm_subnet" "ars" {
 resource "azurerm_public_ip" "ars" {
   name                = format("%s-ars-pip", var.name)
   resource_group_name = local.resource_group_name
-  location            = var.region
+  location            = local.region
   allocation_method   = "Static"
   sku                 = "Standard"
 }
@@ -33,7 +33,7 @@ resource "azurerm_public_ip" "ars" {
 resource "azurerm_route_server" "default" {
   name                             = format("%s-ars", var.name)
   resource_group_name              = local.resource_group_name
-  location                         = var.region
+  location                         = local.region
   sku                              = "Standard"
   public_ip_address_id             = azurerm_public_ip.ars.id
   subnet_id                        = azurerm_subnet.ars.id
@@ -44,7 +44,7 @@ resource "azurerm_route_server" "default" {
 resource "azurerm_public_ip" "vng" {
   name                = format("%s-vng-pip", var.name)
   resource_group_name = local.resource_group_name
-  location            = var.region
+  location            = local.region
   allocation_method   = "Static"
   sku                 = "Standard"
 }
@@ -58,7 +58,7 @@ resource "azurerm_subnet" "vng" {
 
 resource "azurerm_virtual_network_gateway" "default" {
   name                = format("%s-vng", var.name)
-  location            = var.region
+  location            = local.region
   resource_group_name = local.resource_group_name
 
   type = "ExpressRoute"
@@ -75,8 +75,8 @@ resource "azurerm_virtual_network_gateway" "default" {
 #Connectivity to Aviatrix transit
 resource "azurerm_virtual_network_peering" "default-1" {
   name                      = format("%s-peertransittoars", var.name)
-  resource_group_name       = var.transit_vnet_obj.resource_group
-  virtual_network_name      = var.transit_vnet_obj.name
+  resource_group_name       = local.transit_resource_group
+  virtual_network_name      = local.transit_vnet_name
   remote_virtual_network_id = azurerm_virtual_network.default.id
   use_remote_gateways       = true
 
@@ -89,7 +89,7 @@ resource "azurerm_virtual_network_peering" "default-2" {
   name                      = format("%s-peerarstotransit", var.name)
   resource_group_name       = local.resource_group_name
   virtual_network_name      = azurerm_virtual_network.default.name
-  remote_virtual_network_id = var.transit_vnet_obj.azure_vnet_resource_id
+  remote_virtual_network_id = local.transit_resource_group_id
   allow_gateway_transit     = true
 
   depends_on = [
@@ -100,26 +100,26 @@ resource "azurerm_virtual_network_peering" "default-2" {
 resource "azurerm_route_server_bgp_connection" "transit_gw" {
   name            = format("%s-transit_gw", var.name)
   route_server_id = azurerm_route_server.default.id
-  peer_asn        = var.transit_gw_obj.local_as_number
+  peer_asn        = local.transit_as_number
   peer_ip         = "169.254.21.5" #Need to figure out LAN IP
 }
 
 resource "azurerm_route_server_bgp_connection" "transit_hagw" {
   name            = format("%s-transit_hagw", var.name)
   route_server_id = azurerm_route_server.default.id
-  peer_asn        = var.transit_gw_obj.local_as_number
-  peer_ip         = "169.254.21.5" #Need to figure out LAN IP
+  peer_asn        = local.transit_as_number
+  peer_ip         = "169.254.21.6" #Need to figure out LAN IP
 }
 
 resource "aviatrix_transit_external_device_conn" "default" {
-  vpc_id                   = var.transit_vnet_obj.vpc_id
+  vpc_id                   = local.transit_vnet_id
   connection_name          = format("%s-ars-bgp", var.name)
-  gw_name                  = var.transit_gw_obj.gw_name
+  gw_name                  = local.transit_gateway_name
   connection_type          = "bgp"
   tunnel_protocol          = "LAN"
   remote_vpc_name          = format("%s:%s:%s", azurerm_virtual_network.default.name, local.resource_group_name, data.azurerm_subscription.current.subscription_id)
   ha_enabled               = true
-  bgp_local_as_num         = var.transit_gw_obj.local_as_number
+  bgp_local_as_num         = local.transit_as_number
   bgp_remote_as_num        = "65515"
   backup_bgp_remote_as_num = "65515"
   remote_lan_ip            = tolist(azurerm_route_server.default.virtual_router_ips)[0]
@@ -136,7 +136,7 @@ resource "aviatrix_transit_external_device_conn" "default" {
 
 resource "aviatrix_segmentation_network_domain_association" "default" {
   count                = length(var.network_domain) > 0 ? 1 : 0 #Only create resource when attached and network_domain is set.
-  transit_gateway_name = var.transit_gw_obj.gw_name
+  transit_gateway_name = local.transit_gateway_name
   network_domain_name  = var.network_domain
   attachment_name      = aviatrix_transit_external_device_conn.default.connection_name
   depends_on           = [aviatrix_transit_external_device_conn.default] #Let's make sure this cannot create a race condition
