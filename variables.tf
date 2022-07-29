@@ -13,8 +13,8 @@ variable "cidr" {
   }
 
   validation {
-    condition     = split("/", var.cidr)[1] >= 27
-    error_message = "CIDR size too small. Needs to be at least a /27."
+    condition     = split("/", var.cidr)[1] <= 26
+    error_message = "CIDR size too small. Needs to be at least a /26."
   }
 }
 
@@ -35,6 +35,13 @@ variable "region" {
 
 variable "resource_group_name" {
   description = "Resource group name, in case you want to use an existing resource group."
+  type        = string
+  default     = ""
+  nullable    = false
+}
+
+variable "network_domain" {
+  description = "Network domain used for segmentation"
   type        = string
   default     = ""
   nullable    = false
