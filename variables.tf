@@ -20,18 +20,11 @@ variable "cidr" {
 
 variable "transit_vnet_obj" {
   description = "ID of transit VNET"
-  #type        = map(any)
 }
 
 variable "transit_gw_obj" {
   description = "Name of the transit gateway."
-  #type        = map(any)
 }
-
-# variable "region" {
-#   description = "Azure region where to deploy ARS."
-#   type        = string
-# }
 
 variable "resource_group_name" {
   description = "Resource group name, in case you want to use an existing resource group."
