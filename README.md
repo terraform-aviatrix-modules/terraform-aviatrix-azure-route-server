@@ -36,10 +36,12 @@ module "azure_route_server" {
   version = "1.0.0"
   
   terraform-aviatrix-azure-route-server"
-  name             = "myars"
-  transit_vnet_obj = module.transit.vpc
-  transit_gw_obj   = module.transit.transit_gateway
-  cidr             = "10.1.128.0/26"
+  name                = "myars"
+  transit_vnet_obj    = module.transit.vpc
+  transit_gw_obj      = module.transit.transit_gateway
+  cidr                = "10.1.128.0/26"
+  local_lan_ip        = "10.1.0.92"
+  backup_local_lan_ip = "10.1.1.92"
 }
 ```
 
@@ -52,6 +54,8 @@ name | Name to be used for Azure Route Server related components.
 cidr | CIDR for VNET creation.
 transit_vnet_obj | The entire VNET object as created by aviatrix_vpc resource.
 transit_gw_obj | The entire gateway object as created by aviatrix_transit_gateway resource.
+local_lan_ip | IP Address of Aviatrix transit GW BGP interface.
+backup_local_lan_ip | IP Address of Aviatrix transit HAGW BGP interface.
 
 The following variables are optional:
 

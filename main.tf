@@ -101,31 +101,31 @@ resource "azurerm_route_server_bgp_connection" "transit_gw" {
   name            = format("%s-transit_gw", var.name)
   route_server_id = azurerm_route_server.default.id
   peer_asn        = local.transit_as_number
-  peer_ip         = "169.254.21.5" #Need to figure out LAN IP
+  peer_ip         = var.local_lan_ip
 }
 
 resource "azurerm_route_server_bgp_connection" "transit_hagw" {
   name            = format("%s-transit_hagw", var.name)
   route_server_id = azurerm_route_server.default.id
   peer_asn        = local.transit_as_number
-  peer_ip         = "169.254.21.6" #Need to figure out LAN IP
+  peer_ip         = var.backup_local_lan_ip
 }
 
 resource "aviatrix_transit_external_device_conn" "default" {
-  vpc_id                   = local.transit_vnet_id
-  connection_name          = format("%s-ars-bgp", var.name)
-  gw_name                  = local.transit_gateway_name
-  connection_type          = "bgp"
-  tunnel_protocol          = "LAN"
-  remote_vpc_name          = format("%s:%s:%s", azurerm_virtual_network.default.name, local.resource_group_name, data.azurerm_subscription.current.subscription_id)
-  ha_enabled               = true
-  bgp_local_as_num         = local.transit_as_number
-  bgp_remote_as_num        = "65515"
-  backup_bgp_remote_as_num = "65515"
-  remote_lan_ip            = tolist(azurerm_route_server.default.virtual_router_ips)[0]
-  backup_remote_lan_ip     = tolist(azurerm_route_server.default.virtual_router_ips)[1]
-  # local_lan_ip              = var.transit_gw_obj.bgp_lan_ip_list[0]
-  # backup_local_lan_ip       = var.transit_gw_obj.ha_bgp_lan_ip_list[0]
+  vpc_id                    = local.transit_vnet_id
+  connection_name           = format("%s-ars-bgp", var.name)
+  gw_name                   = local.transit_gateway_name
+  connection_type           = "bgp"
+  tunnel_protocol           = "LAN"
+  remote_vpc_name           = format("%s:%s:%s", azurerm_virtual_network.default.name, local.resource_group_name, data.azurerm_subscription.current.subscription_id)
+  ha_enabled                = true
+  bgp_local_as_num          = local.transit_as_number
+  bgp_remote_as_num         = "65515"
+  backup_bgp_remote_as_num  = "65515"
+  remote_lan_ip             = tolist(azurerm_route_server.default.virtual_router_ips)[0]
+  backup_remote_lan_ip      = tolist(azurerm_route_server.default.virtual_router_ips)[1]
+  local_lan_ip              = var.local_lan_ip        #var.transit_gw_obj.bgp_lan_ip_list[0]
+  backup_local_lan_ip       = var.backup_local_lan_ip #var.transit_gw_obj.ha_bgp_lan_ip_list[0]
   enable_bgp_lan_activemesh = true
 
   depends_on = [

@@ -47,6 +47,16 @@ variable "vng_sku" {
   nullable    = false
 }
 
+variable "local_lan_ip" {
+  description = "IP Address of Aviatrix transit GW BGP interface."
+  type        = string
+}
+
+variable "backup_local_lan_ip" {
+  description = "IP Address of Aviatrix transit HAGW BGP interface."
+  type        = string
+}
+
 locals {
   existing_resource_group   = length(var.resource_group_name) > 0
   resource_group_name       = local.existing_resource_group ? var.resource_group_name : azurerm_resource_group.default[0].name
