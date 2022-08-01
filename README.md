@@ -5,7 +5,7 @@ This module deploys a VNET with Azure route server and integrates it with the pr
 Make sure to use a transit instance size that allos for more than 4 interfaces (e.g. Standard_DS4_v2).
 
 ### Diagram
-<img src="https://github.com/terraform-aviatrix-modules/terraform-aviatrix-azure-route-server/blob/master/img/diagram.png?raw=true"  height="250">
+<img src="https://github.com/terraform-aviatrix-modules/terraform-aviatrix-azure-route-server/blob/main/img/diagram.png?raw=true" width="500">
 
 ### Compatibility
 Module version | Terraform version | Controller version | Terraform provider version
