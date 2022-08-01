@@ -62,7 +62,7 @@ resource "azurerm_virtual_network_gateway" "default" {
   resource_group_name = local.resource_group_name
 
   type = "ExpressRoute"
-  sku  = "Standard" #Needs to be user configurable
+  sku  = var.vng_sku
 
   ip_configuration {
     name                          = "vnetGatewayConfig"
@@ -141,4 +141,3 @@ resource "aviatrix_segmentation_network_domain_association" "default" {
   attachment_name      = aviatrix_transit_external_device_conn.default.connection_name
   depends_on           = [aviatrix_transit_external_device_conn.default] #Let's make sure this cannot create a race condition
 }
-

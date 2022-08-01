@@ -59,6 +59,7 @@ key | default | value
 :---|:---|:---
 resource_group_name | | Resource group name, in case you want to use an existing resource group.
 network_domain | | Network domain used for segmentation.
+vng_sku | Standard | SKU to use to deploy the VNG.
 
 ### Outputs
 This module will return the following outputs:
