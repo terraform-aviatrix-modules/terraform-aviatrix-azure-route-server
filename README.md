@@ -1,8 +1,7 @@
 # terraform-aviatrix-azure-route-server
 
 ### Description
-This module deploys a VNET with Azure route server and integrates it with the provided Aviatrix transit through BGP over LAN.
-Make sure to use a transit instance size that allos for more than 4 interfaces (e.g. Standard_DS4_v2).
+This module deploys a VNET with Azure route server and integrates it with the provided Aviatrix transit through BGP over LAN. Make sure to use a transit instance size that allows for more than 4 interfaces (e.g. Standard_DS4_v2). An ExpressRoute Gateway (vng) is provisioned as well to facilitate attachment to the ExpressRoute circuit.
 
 ### Diagram
 <img src="https://github.com/terraform-aviatrix-modules/terraform-aviatrix-azure-route-server/blob/main/img/diagram.png?raw=true" width="500">
