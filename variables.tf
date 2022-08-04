@@ -19,11 +19,21 @@ variable "cidr" {
 }
 
 variable "transit_vnet_obj" {
-  description = "ID of transit VNET"
+  description = "The entire VNET object as created by aviatrix_vpc resource."
 }
 
 variable "transit_gw_obj" {
-  description = "Name of the transit gateway."
+  description = "The entire gateway object as created by aviatrix_transit_gateway resource."
+}
+
+variable "local_lan_ip" {
+  description = "IP Address of Aviatrix transit GW BGP interface."
+  type        = string
+}
+
+variable "backup_local_lan_ip" {
+  description = "IP Address of Aviatrix transit HAGW BGP interface."
+  type        = string
 }
 
 variable "resource_group_name" {
@@ -47,16 +57,6 @@ variable "vng_sku" {
   nullable    = false
 }
 
-variable "local_lan_ip" {
-  description = "IP Address of Aviatrix transit GW BGP interface."
-  type        = string
-}
-
-variable "backup_local_lan_ip" {
-  description = "IP Address of Aviatrix transit HAGW BGP interface."
-  type        = string
-}
-
 locals {
   existing_resource_group   = length(var.resource_group_name) > 0
   resource_group_name       = local.existing_resource_group ? var.resource_group_name : azurerm_resource_group.default[0].name
@@ -67,4 +67,5 @@ locals {
   transit_resource_group    = var.transit_vnet_obj.resource_group
   transit_resource_group_id = var.transit_vnet_obj.azure_vnet_resource_id
   transit_as_number         = var.transit_gw_obj.local_as_number
+  segmentation_enabled      = var.transit_gw_obj.enable_segmentation
 }

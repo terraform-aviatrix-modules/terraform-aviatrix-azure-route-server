@@ -15,7 +15,7 @@ v1.0.0 | >= 1.0.0 | >= 6.8 | >= 2.23.0
 ```
 module "transit" {
   source  = "terraform-aviatrix-modules/mc-transit/aviatrix"
-  version = "2.1.6"
+  version = "2.2.0"
 
   cloud   = "Azure"
   region  = "West Europe"

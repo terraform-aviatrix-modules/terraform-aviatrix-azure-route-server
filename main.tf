@@ -140,4 +140,12 @@ resource "aviatrix_segmentation_network_domain_association" "default" {
   network_domain_name  = var.network_domain
   attachment_name      = aviatrix_transit_external_device_conn.default.connection_name
   depends_on           = [aviatrix_transit_external_device_conn.default] #Let's make sure this cannot create a race condition
+
+  lifecycle {
+    # Transit gateway must have segmentation enabled for network domain to be associated.
+    precondition {
+      condition     = local.segmentation_enabled
+      error_message = "The transit gateway does not have segmentation enabled."
+    }
+  }
 }
