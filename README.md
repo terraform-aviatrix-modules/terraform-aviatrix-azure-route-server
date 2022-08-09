@@ -33,7 +33,6 @@ module "azure_route_server" {
   source  = "terraform-aviatrix-modules/azure-route-server/aviatrix"
   version = "1.0.0"
   
-  terraform-aviatrix-azure-route-server"
   name                = "myars"
   transit_vnet_obj    = module.transit.vpc
   transit_gw_obj      = module.transit.transit_gateway
