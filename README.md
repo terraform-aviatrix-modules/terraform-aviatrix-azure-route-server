@@ -12,7 +12,7 @@ Module version | Terraform version | Controller version | Terraform provider ver
 v1.0.0 | >= 1.0.0 | >= 6.8 | >= 2.23.0
 
 ### Usage Example
-```
+```hcl
 module "transit" {
   source  = "terraform-aviatrix-modules/mc-transit/aviatrix"
   version = "2.2.0"
