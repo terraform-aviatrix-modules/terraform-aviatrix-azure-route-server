@@ -62,7 +62,8 @@ key | default | value
 resource_group_name | | Resource group name, in case you want to use an existing resource group.
 network_domain | | Network domain used for segmentation.
 vng_sku | Standard | SKU to use to deploy the VNG.
-avx_manual_bgp_advertised_cidrs | null | Configure manual BGP advertised CIDRs from Aviatrix side just for this connection towards ARS.
+[avx_manual_bgp_advertised_cidrs](https://registry.terraform.io/providers/AviatrixSystems/aviatrix/latest/docs/resources/aviatrix_transit_external_device_conn#manual_bgp_advertised_cidrs) | null | Configure manual BGP advertised CIDRs from Aviatrix side just for this connection towards ARS. 
+
 
 ### Outputs
 This module will return the following outputs:
