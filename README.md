@@ -39,7 +39,7 @@ module "azure_route_server" {
   cidr                            = "10.1.128.0/26"
   local_lan_ip                    = "10.1.0.92"
   backup_local_lan_ip             = "10.1.1.92"
-  avx_manual_bgp_advertised_cidrs = 
+
 }
 ```
 
