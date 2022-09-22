@@ -57,6 +57,11 @@ variable "vng_sku" {
   nullable    = false
 }
 
+variable "avx_manual_bgp_advertised_cidrs" {
+  description = "(Optional) Configure manual BGP advertised CIDRs for this connection."
+  default     = null
+}
+
 locals {
   existing_resource_group   = length(var.resource_group_name) > 0
   resource_group_name       = local.existing_resource_group ? var.resource_group_name : azurerm_resource_group.default[0].name
