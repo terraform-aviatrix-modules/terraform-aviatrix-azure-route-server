@@ -127,7 +127,7 @@ resource "aviatrix_transit_external_device_conn" "default" {
   # local_lan_ip              = var.local_lan_ip        #var.transit_gw_obj.bgp_lan_ip_list[0]
   # backup_local_lan_ip       = var.backup_local_lan_ip #var.transit_gw_obj.ha_bgp_lan_ip_list[0]
   enable_bgp_lan_activemesh = true
-  manual_bgp_advertised_cidrs = var.manual_bgp_advertised_cidrs
+  manual_bgp_advertised_cidrs = var.avx_manual_bgp_advertised_cidrs
 
   depends_on = [
     azurerm_virtual_network_peering.default-1,
