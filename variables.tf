@@ -26,16 +26,6 @@ variable "transit_gw_obj" {
   description = "The entire gateway object as created by aviatrix_transit_gateway resource."
 }
 
-variable "local_lan_ip" {
-  description = "IP Address of Aviatrix transit GW BGP interface."
-  type        = string
-}
-
-variable "backup_local_lan_ip" {
-  description = "IP Address of Aviatrix transit HAGW BGP interface."
-  type        = string
-}
-
 variable "resource_group_name" {
   description = "Resource group name, in case you want to use an existing resource group."
   type        = string
@@ -57,6 +47,18 @@ variable "vng_sku" {
   nullable    = false
 }
 
+variable "lan_interface_index" {
+  description = "Determines which LAN interface will be used for terminating the BGP peering. Uses the first BGP interface by default (0)."
+  type        = number
+  default     = 0
+  nullable    = false
+}
+
+variable "manual_bgp_advertised_cidrs" {
+  description = "(Optional) Configure manual BGP advertised CIDRs for this connection."
+  default     = null
+}
+
 locals {
   existing_resource_group   = length(var.resource_group_name) > 0
   resource_group_name       = local.existing_resource_group ? var.resource_group_name : azurerm_resource_group.default[0].name
@@ -68,4 +70,6 @@ locals {
   transit_resource_group_id = var.transit_vnet_obj.azure_vnet_resource_id
   transit_as_number         = var.transit_gw_obj.local_as_number
   segmentation_enabled      = var.transit_gw_obj.enable_segmentation
+  bgp_lan_ip_list           = var.transit_gw_obj.bgp_lan_ip_list
+  ha_bgp_lan_ip_list        = var.transit_gw_obj.ha_bgp_lan_ip_list
 }

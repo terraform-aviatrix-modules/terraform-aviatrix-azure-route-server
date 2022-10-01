@@ -1,9 +1,9 @@
-Please update this file with information about changes between version and upgrade information.
+# terraform-aviatrix-azure-route-server - release notes
 
-# module name - release notes
+## v1.0.1
 
-## Release Version
-Describe release
+### Automatically find LAN IP addresses based on new Transit Gateway attribute
 
-### Feature
-Describe new featue
+### Implement support for manual_bgp_advertised_cidrs
+
+## v1.0.0 Initial release

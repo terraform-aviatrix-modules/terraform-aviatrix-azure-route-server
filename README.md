@@ -9,7 +9,7 @@ This module deploys a VNET with Azure route server and integrates it with the pr
 ### Compatibility
 Module version | Terraform version | Controller version | Terraform provider version
 :--- | :--- | :--- | :---
-v1.0.0 | >= 1.0.0 | >= 6.8 | >= 2.23.0
+v1.0.1 | >= 1.0.0 | >= 6.8.1311 | >= 2.23.1
 
 ### Usage Example
 ```hcl
@@ -31,14 +31,12 @@ module "transit" {
 
 module "azure_route_server" {
   source  = "terraform-aviatrix-modules/azure-route-server/aviatrix"
-  version = "1.0.0"
+  version = "1.0.1"
   
   name                = "myars"
   transit_vnet_obj    = module.transit.vpc
   transit_gw_obj      = module.transit.transit_gateway
   cidr                = "10.1.128.0/26"
-  local_lan_ip        = "10.1.0.92"
-  backup_local_lan_ip = "10.1.1.92"
 }
 ```
 
@@ -51,15 +49,15 @@ name | Name to be used for Azure Route Server related components.
 cidr | CIDR for VNET creation.
 transit_vnet_obj | The entire VNET object as created by aviatrix_vpc resource.
 transit_gw_obj | The entire gateway object as created by aviatrix_transit_gateway resource.
-local_lan_ip | IP Address of Aviatrix transit GW BGP interface.
-backup_local_lan_ip | IP Address of Aviatrix transit HAGW BGP interface.
 
 The following variables are optional:
 
 key | default | value 
 :---|:---|:---
-resource_group_name | | Resource group name, in case you want to use an existing resource group.
+lan_interface_index | 0 | Determines which LAN interface will be used for terminating the BGP peering. Uses the first BGP interface by default (0)
 network_domain | | Network domain used for segmentation.
+[manual_bgp_advertised_cidrs](https://registry.terraform.io/providers/AviatrixSystems/aviatrix/latest/docs/resources/aviatrix_transit_external_device_conn#manual_bgp_advertised_cidrs) | null | Configure manual BGP advertised CIDRs from Aviatrix side just for this connection towards ARS. 
+resource_group_name | | Resource group name, in case you want to use an existing resource group.
 vng_sku | Standard | SKU to use to deploy the VNG.
 
 ### Outputs
