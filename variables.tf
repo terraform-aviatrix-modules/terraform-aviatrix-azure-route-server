@@ -54,8 +54,21 @@ variable "lan_interface_index" {
   nullable    = false
 }
 
+variable "enable_bgp_peering" {
+  description = "Toggle to enable/disable BGP peering between the Aviatrix transit and Azure route server. E.g. for migration scenario's."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
+variable "enable_learned_cidrs_approval" {
+  description = "Enable learned CIDRs approval for the connection."
+  type        = bool
+  default     = null
+}
+
 variable "manual_bgp_advertised_cidrs" {
-  description = "(Optional) Configure manual BGP advertised CIDRs for this connection."
+  description = "Configure manual BGP advertised CIDRs for this connection."
   default     = null
 }
 

@@ -9,7 +9,7 @@ This module deploys a VNET with Azure route server and integrates it with the pr
 ### Compatibility
 Module version | Terraform version | Controller version | Terraform provider version
 :--- | :--- | :--- | :---
-v1.0.1 | >= 1.0.0 | >= 6.8.1311 | >= 2.23.1
+v1.0.2 | >= 1.1.0 | >= 6.8.1311 | >= 2.23.1
 
 ### Usage Example
 ```hcl
@@ -54,6 +54,8 @@ The following variables are optional:
 
 key | default | value 
 :---|:---|:---
+enable_bgp_peering | true | Toggle to enable/disable BGP peering between the Aviatrix transit and Azure route server. E.g. for migration scenario's.
+[enable_learned_cidrs_approval](https://registry.terraform.io/providers/AviatrixSystems/aviatrix/latest/docs/resources/aviatrix_transit_external_device_conn#enable_learned_cidrs_approval) | null | Enable learned CIDRs approval for the connection. 
 lan_interface_index | 0 | Determines which LAN interface will be used for terminating the BGP peering. Uses the first BGP interface by default (0)
 network_domain | | Network domain used for segmentation.
 [manual_bgp_advertised_cidrs](https://registry.terraform.io/providers/AviatrixSystems/aviatrix/latest/docs/resources/aviatrix_transit_external_device_conn#manual_bgp_advertised_cidrs) | null | Configure manual BGP advertised CIDRs from Aviatrix side just for this connection towards ARS. 
