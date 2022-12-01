@@ -31,7 +31,7 @@ module "transit" {
 
 module "azure_route_server" {
   source  = "terraform-aviatrix-modules/azure-route-server/aviatrix"
-  version = "1.0.1"
+  version = "1.0.2"
   
   name                = "myars"
   transit_vnet_obj    = module.transit.vpc
