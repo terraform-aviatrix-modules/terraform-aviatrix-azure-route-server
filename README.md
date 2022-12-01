@@ -61,6 +61,8 @@ network_domain | | Network domain used for segmentation.
 [manual_bgp_advertised_cidrs](https://registry.terraform.io/providers/AviatrixSystems/aviatrix/latest/docs/resources/aviatrix_transit_external_device_conn#manual_bgp_advertised_cidrs) | null | Configure manual BGP advertised CIDRs from Aviatrix side just for this connection towards ARS. 
 resource_group_name | | Resource group name, in case you want to use an existing resource group.
 vng_sku | Standard | SKU to use to deploy the VNG.
+route_server_subnet | | If provided, this is the subnet CIDR that will be used for the route server subnet.
+vng_subnet | | If provided, this is the subnet CIDR that will be used for the VNG subnet.
 
 ### Outputs
 This module will return the following outputs:

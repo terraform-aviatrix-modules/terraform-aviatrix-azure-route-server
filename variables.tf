@@ -8,13 +8,45 @@ variable "cidr" {
   type        = string
 
   validation {
-    condition     = var.cidr != "" ? can(cidrnetmask(var.cidr)) : true
+    condition     = can(cidrnetmask(var.cidr))
     error_message = "This does not like a valid CIDR."
   }
 
   validation {
     condition     = split("/", var.cidr)[1] <= 26
     error_message = "CIDR size too small. Needs to be at least a /26."
+  }
+}
+
+variable "route_server_subnet" {
+  description = "If provided, this is the subnet CIDR that will be used for the route server subnet."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = var.route_server_subnet != "" ? can(cidrnetmask(var.route_server_subnet)) : true
+    error_message = "This does not like a valid CIDR."
+  }
+
+  validation {
+    condition     = var.route_server_subnet != "" ? split("/", var.route_server_subnet)[1] <= 27 : true
+    error_message = "CIDR size too small. Needs to be at least a /27."
+  }
+}
+
+variable "vng_subnet" {
+  description = "If provided, this is the subnet CIDR that will be used for the VNG subnet."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = var.vng_subnet != "" ? can(cidrnetmask(var.vng_subnet)) : true
+    error_message = "This does not like a valid CIDR."
+  }
+
+  validation {
+    condition     = var.vng_subnet != "" ? split("/", var.vng_subnet)[1] <= 27 : true
+    error_message = "CIDR size too small. Needs to be at least a /27."
   }
 }
 

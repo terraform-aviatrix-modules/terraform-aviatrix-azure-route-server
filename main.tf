@@ -19,7 +19,7 @@ resource "azurerm_subnet" "ars" {
   name                 = "RouteServerSubnet"
   virtual_network_name = azurerm_virtual_network.default.name
   resource_group_name  = local.resource_group_name
-  address_prefixes     = [cidrsubnet(var.cidr, 1, 1)]
+  address_prefixes     = length(var.route_server_subnet) > 0 ? [var.route_server_subnet] : [cidrsubnet(var.cidr, 1, 1)]
 }
 
 resource "azurerm_public_ip" "ars" {
@@ -53,7 +53,7 @@ resource "azurerm_subnet" "vng" {
   name                 = "GatewaySubnet"
   virtual_network_name = azurerm_virtual_network.default.name
   resource_group_name  = local.resource_group_name
-  address_prefixes     = [cidrsubnet(var.cidr, 1, 0)]
+  address_prefixes     = length(var.vng_subnet) > 0 ? [var.vng_subnet] : [cidrsubnet(var.cidr, 1, 0)]
 }
 
 resource "azurerm_virtual_network_gateway" "default" {
