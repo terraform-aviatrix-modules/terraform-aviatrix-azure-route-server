@@ -59,6 +59,7 @@ enable_bgp_peering | true | Toggle to enable/disable BGP peering between the Avi
 lan_interface_index | 0 | Determines which LAN interface will be used for terminating the BGP peering. Uses the first BGP interface by default (0)
 network_domain | | Network domain used for segmentation.
 [manual_bgp_advertised_cidrs](https://registry.terraform.io/providers/AviatrixSystems/aviatrix/latest/docs/resources/aviatrix_transit_external_device_conn#manual_bgp_advertised_cidrs) | null | Configure manual BGP advertised CIDRs from Aviatrix side just for this connection towards ARS. 
+remote_vnet_traffic_enabled | | Is remote vnet traffic that is used to configure this gateway to accept traffic from other Azure Virtual Networks enabled?
 resource_group_name | | Resource group name, in case you want to use an existing resource group.
 vng_sku | Standard | SKU to use to deploy the VNG.
 route_server_subnet | | If provided, this is the subnet CIDR that will be used for the route server subnet.
