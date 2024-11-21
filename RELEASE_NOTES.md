@@ -1,5 +1,10 @@
 # terraform-aviatrix-azure-route-server - release notes
 
+## v1.0.3
+
+### Add support for remote_vnet_traffic_enabled
+Allows you to toggle remote_vnet_traffic_enabled on the VNG.
+
 ## v1.0.2
 
 ### Add support for enable_learned_cidrs_approval

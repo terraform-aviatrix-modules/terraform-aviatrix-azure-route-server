@@ -104,6 +104,12 @@ variable "manual_bgp_advertised_cidrs" {
   default     = null
 }
 
+variable "remote_vnet_traffic_enabled" {
+  description = "Is remote vnet traffic that is used to configure this gateway to accept traffic from other Azure Virtual Networks enabled?"
+  type        = bool
+  default     = null
+}
+
 locals {
   existing_resource_group   = length(var.resource_group_name) > 0
   resource_group_name       = local.existing_resource_group ? var.resource_group_name : azurerm_resource_group.default[0].name

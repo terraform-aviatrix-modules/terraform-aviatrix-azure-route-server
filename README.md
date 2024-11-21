@@ -9,7 +9,7 @@ This module deploys a VNET with Azure route server and integrates it with the pr
 ### Compatibility
 Module version | Terraform version | Controller version | Terraform provider version
 :--- | :--- | :--- | :---
-v1.0.2 | >= 1.1.0 | >= 6.8.1311 | >= 2.23.1
+v1.0.3 | >= 1.1.0 | >= 6.8.1311 | >= 2.23.1
 
 ### Usage Example
 ```hcl

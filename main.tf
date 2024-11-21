@@ -61,8 +61,9 @@ resource "azurerm_virtual_network_gateway" "default" {
   location            = local.region
   resource_group_name = local.resource_group_name
 
-  type = "ExpressRoute"
-  sku  = var.vng_sku
+  type                        = "ExpressRoute"
+  sku                         = var.vng_sku
+  remote_vnet_traffic_enabled = var.remote_vnet_traffic_enabled
 
   ip_configuration {
     name                          = "vnetGatewayConfig"
